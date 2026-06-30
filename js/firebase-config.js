@@ -17,12 +17,12 @@
 //   }
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCKTsMTdpX1_MaiSkaI7MgXBVmUeXCPMgw",
+  authDomain: "flower-91e74.firebaseapp.com",
+  projectId: "flower-91e74",
+  storageBucket: "flower-91e74.firebasestorage.app",
+  messagingSenderId: "797148117535",
+  appId: "1:797148117535:web:c8fc76dddcd9cf6c29f32a"
 };
 
 firebase.initializeApp(firebaseConfig);

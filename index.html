@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Garden</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .topbar{display:flex; align-items:center; justify-content:space-between; padding:22px 40px;}
+  .mark{font-family:var(--serif); font-size:1.3rem; color:var(--rose-soft);}
+  .who{font-size:.82rem; color:var(--ink-dim); display:flex; align-items:center; gap:14px;}
+  .wrap{max-width:980px; margin:0 auto; padding:40px 24px 100px;}
+  .hero{text-align:center; margin-bottom:48px;}
+  .hero .eyebrow{display:block; margin-bottom:10px;}
+  .hero h1{margin:0 0 14px;}
+  .hero p{max-width:480px; margin:0 auto 26px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:18px;}
+  .gift-card{padding:20px; position:relative; transition:transform .2s ease, border-color .2s ease;}
+  .gift-card:hover{transform:translateY(-3px); border-color:var(--gold);}
+  .gift-card .to{font-family:var(--serif); font-size:1.3rem; margin-bottom:4px;}
+  .gift-card .meta{font-size:.76rem; color:var(--ink-dim); margin-bottom:14px;}
+  .gift-card .row{display:flex; gap:8px;}
+  .new-card{
+    border:1.5px dashed var(--line); border-radius:var(--radius); padding:30px 20px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    text-decoration:none; color:var(--ink-dim); transition:all .2s ease; min-height:160px;
+  }
+  .new-card:hover{border-color:var(--gold); color:var(--ink);}
+  .new-card .plus{font-size:1.8rem; font-family:var(--serif); color:var(--rose-soft);}
+  .empty{text-align:center; padding:60px 0; color:var(--ink-dim);}
+  .loading{text-align:center; padding:60px 0;}
+</style>
+</head>
+<body>
+<div class="canopy-bg"></div>
+
+<div class="topbar">
+  <div class="mark">🌿 Garden</div>
+  <div class="who">
+    <span id="whoName"></span>
+    <button class="btn btn-sm btn-ghost" id="signOutBtn">Sign out</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="eyebrow">A love letter, grown</span>
+    <h1>Your bouquets</h1>
+    <p>Compose a bouquet, write a note, send something that feels like it was picked by hand.</p>
+    <a href="builder.html" class="btn btn-primary">Start a new gift</a>
+  </div>
+
+  <div id="loading" class="loading"><span class="spinner"></span></div>
+  <div id="grid" class="grid" style="display:none;"></div>
+  <div id="empty" class="empty" style="display:none;">No gifts yet — the first bloom is yours to plant.</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  document.getElementById('signOutBtn').addEventListener('click', signOutAndRedirect);
+
+  requireAuth(user => {
+    document.getElementById('whoName').textContent = user.displayName || user.email;
+    loadGifts(user.uid);
+  });
+
+  function loadGifts(uid) {
+    db.collection('gifts').where('ownerId', '==', uid).orderBy('createdAt', 'desc').get()
+      .then(snap => {
+        document.getElementById('loading').style.display = 'none';
+        if (snap.empty) {
+          document.getElementById('empty').style.display = 'block';
+          return;
+        }
+        const grid = document.getElementById('grid');
+        grid.style.display = 'grid';
+        snap.forEach(doc => grid.appendChild(renderCard(doc.id, doc.data())));
+      })
+      .catch(err => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('empty').textContent = 'Could not load gifts — check your Firebase setup.';
+        document.getElementById('empty').style.display = 'block';
+        console.error(err);
+      });
+  }
+
+  function renderCard(id, g) {
+    const el = document.createElement('div');
+    el.className = 'gift-card card-panel';
+    const date = g.createdAt && g.createdAt.toDate ? g.createdAt.toDate().toLocaleDateString() : '';
+    el.innerHTML = `
+      <div class="to">For ${escapeHtml(g.toName || 'someone')}</div>
+      <div class="meta">${g.locked ? '🔒 PIN locked · ' : ''}${date}</div>
+      <div class="row">
+        <a class="btn btn-sm" href="gift.html?id=${id}">View</a>
+        <button class="btn btn-sm btn-danger" data-id="${id}">Delete</button>
+      </div>`;
+    el.querySelector('.btn-danger').addEventListener('click', () => deleteGift(id, el));
+    return el;
+  }
+
+  function deleteGift(id, el) {
+    if (!confirm('Remove this gift permanently?')) return;
+    db.collection('gifts').doc(id).delete().then(() => el.remove());
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+</script>
+</body>
+</html>

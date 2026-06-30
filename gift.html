@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A gift for you · Garden</title>
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/builder.css">
+<link rel="stylesheet" href="css/card-art.css">
+<link rel="stylesheet" href="css/lock-styles.css">
+<link rel="stylesheet" href="css/gift.css">
+</head>
+<body>
+<div class="canopy-bg"></div>
+
+<!-- Loading -->
+<div id="loadingScreen" class="full-screen-center">
+  <div class="grow-stem">🌱</div>
+  <p class="serif loading-text">Something is growing…</p>
+</div>
+
+<!-- PIN gate (injected per lock style) -->
+<div id="lockScreen" hidden></div>
+
+<!-- Not found -->
+<div id="notFound" class="full-screen-center" hidden>
+  <h2>This gift couldn't be found</h2>
+  <p>The link may be incomplete, or the gift was removed.</p>
+</div>
+
+<!-- Reveal -->
+<main id="reveal" class="reveal" hidden>
+  <div class="reveal-card-wrap">
+    <div class="reveal-card" id="revealCard">
+      <div class="card-art-bg" id="cardArtBg"></div>
+      <div class="reveal-inner">
+        <p class="eyebrow" id="forLabel">For</p>
+        <h1 id="toNameOut" class="serif"></h1>
+        <div class="bouquet-display" id="bouquetDisplay"></div>
+        <p class="note-text" id="noteOut"></p>
+        <p class="from-out">— <span id="fromNameOut"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="photosSection" class="photos-section" hidden>
+    <h3 class="serif">Moments</h3>
+    <div class="photos-grid" id="photosGrid"></div>
+  </div>
+
+  <div id="voiceSection" class="voice-section" hidden>
+    <h3 class="serif">A voice note</h3>
+    <audio id="voiceOut" controls></audio>
+  </div>
+
+  <div id="musicSection" class="music-section" hidden>
+    <h3 class="serif">A song</h3>
+    <div id="spotifyEmbed"></div>
+  </div>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/flowers-data.js"></script>
+<script src="js/cards-data.js"></script>
+<script src="js/gift.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+/* ============ Lock screen styles ============
+   Each style id renders as .lock-screen.style-<id>
+   Used full-bleed on gift.html, and abbreviated inside .preview thumbnails on builder.html */
+
+.lock-screen{
+  position:fixed; inset:0; z-index:50;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:22px; text-align:center; padding:24px;
+}
+.lock-screen h3{font-family:var(--serif); font-weight:500; font-size:1.6rem; margin:0;}
+.lock-screen p{font-size:.85rem; max-width:280px;}
+.pin-dots{display:flex; gap:14px;}
+.pin-dot{width:14px; height:14px; border-radius:50%; border:1.5px solid var(--ink-dim); transition:all .2s ease;}
+.pin-dot.filled{background:var(--gold); border-color:var(--gold);}
+.pin-dot.shake{animation:shakeDot .4s ease;}
+@keyframes shakeDot{ 20%,60%{transform:translateX(-4px);} 40%,80%{transform:translateX(4px);} }
+.pin-keypad{display:grid; grid-template-columns:repeat(3,64px); gap:12px;}
+.pin-key{
+  width:64px; height:64px; border-radius:50%; border:1px solid var(--line); background:rgba(255,255,255,.04);
+  color:var(--ink); font-size:1.2rem; font-family:var(--sans); cursor:pointer; transition:all .15s ease;
+}
+.pin-key:hover{border-color:var(--gold); background:rgba(184,146,74,.12);}
+.pin-key.wide{grid-column:span 1;}
+
+/* --- Style: Sealed Envelope --- */
+.style-seal{ background:radial-gradient(circle at 50% 30%, #2a4434, #13231a 75%); }
+.seal-wax{
+  width:84px; height:84px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #d7a763, #8a6a3c 70%);
+  display:flex; align-items:center; justify-content:center; font-size:1.6rem;
+  box-shadow:0 10px 22px rgba(0,0,0,.45);
+  animation:sealPulse 3s ease-in-out infinite;
+}
+@keyframes sealPulse{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.04);} }
+
+/* --- Style: Vine Growth --- */
+.style-vine{ background:linear-gradient(180deg,#1d3326,#0f1c14); }
+.vine-frame{ position:relative; width:120px; height:120px; }
+.vine-frame svg{ width:100%; height:100%; }
+.vine-frame path{ stroke:#7c9b7a; stroke-width:3; fill:none; stroke-linecap:round;
+  stroke-dasharray:300; stroke-dashoffset:300; animation:growVine 3.5s ease forwards infinite; }
+@keyframes growVine{ 0%{stroke-dashoffset:300;} 60%{stroke-dashoffset:0;} 100%{stroke-dashoffset:0;} }
+
+/* --- Style: Bloom Reveal --- */
+.style-bloom{ background:radial-gradient(circle at 50% 40%, #3a2330, #1d3326 80%); }
+.bloom-icon{ font-size:3rem; animation:bloomSpin 4s ease-in-out infinite; }
+@keyframes bloomSpin{ 0%,100%{transform:scale(.9) rotate(0deg);} 50%{transform:scale(1.08) rotate(8deg);} }
+
+/* --- Style: Simple Dial --- */
+.style-dial{ background:#13231a; }
+.dial-ring{
+  width:90px; height:90px; border-radius:50%; border:2px solid var(--gold);
+  display:flex; align-items:center; justify-content:center; font-size:1.4rem;
+  animation:dialSpin 6s linear infinite;
+}
+@keyframes dialSpin{ to{transform:rotate(360deg);} }
+
+/* preview-scale (inside lock-style-card .preview) */
+.preview .pin-dots{display:none;}
+.preview .seal-wax{width:46px; height:46px; font-size:1rem;}
+.preview .vine-frame{width:60px; height:60px;}
+.preview .bloom-icon{font-size:1.8rem;}
+.preview .dial-ring{width:48px; height:48px; font-size:.85rem;}

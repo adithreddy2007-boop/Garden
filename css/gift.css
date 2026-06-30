@@ -1,0 +1,33 @@
+.full-screen-center{
+  min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:18px; text-align:center; padding:24px;
+}
+.grow-stem{font-size:2.4rem; animation:sway 2.4s ease-in-out infinite;}
+@keyframes sway{ 0%,100%{transform:rotate(-6deg);} 50%{transform:rotate(6deg);} }
+.loading-text{font-size:1.1rem; color:var(--ink-dim);}
+
+.reveal{max-width:720px; margin:0 auto; padding:48px 20px 90px; animation:revealIn .6s ease;}
+@keyframes revealIn{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+
+.reveal-card-wrap{display:flex; justify-content:center;}
+.reveal-card{
+  position:relative; width:100%; max-width:480px; min-height:560px; border-radius:24px;
+  overflow:hidden; box-shadow:var(--shadow); border:1px solid var(--line);
+}
+.card-art-bg{position:absolute; inset:0;}
+.reveal-inner{position:relative; z-index:1; padding:40px 30px; text-align:center; color:#2a1d12;}
+.reveal-inner .eyebrow{color:#8a6a3c;}
+.reveal-inner h1{margin:4px 0 18px; color:#2a1d12;}
+.bouquet-display{position:relative; width:220px; height:260px; margin:0 auto 18px;}
+.bouquet-display img.wrap-bg{position:absolute; inset:0; width:100%; height:100%; object-fit:contain;}
+.bouquet-display .pf{position:absolute; transform:translate(-50%,-50%);}
+.bouquet-display .pf img{width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 3px 6px rgba(0,0,0,.2));}
+.note-text{white-space:pre-wrap; font-family:var(--serif); font-size:1.15rem; color:#3a2a18; line-height:1.6; margin:14px 0;}
+.from-out{font-family:var(--serif); font-style:italic; color:#5a4326;}
+
+.photos-section,.voice-section,.music-section{max-width:480px; margin:40px auto 0; text-align:center;}
+.photos-section h3,.voice-section h3,.music-section h3{font-weight:500; margin-bottom:14px;}
+.photos-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px;}
+.photos-grid img{width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; box-shadow:var(--shadow);}
+#voiceOut{width:100%;}
+#spotifyEmbed iframe{border-radius:12px; width:100%;}

@@ -1,0 +1,58 @@
+.card-art{position:absolute; inset:0; overflow:hidden; border-radius:inherit;}
+
+/* Floral Collage */
+.card-art-collage{background:radial-gradient(circle at 30% 20%, #fbeede, #f1e2c7 60%, #e4cfa3);}
+.collage-bloom{
+  position:absolute; width:38%; opacity:.96;
+  top:calc(10% + (var(--i) * 13%) % 70%);
+  left:calc(8% + (var(--i) * 21%) % 64%);
+  transform:rotate(calc(var(--i) * 23deg));
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.18));
+}
+
+/* Heart Wreath */
+.card-art-wreath{background:radial-gradient(circle at 50% 35%, #fdf6ea, #f0e1c8 70%, #e2cc9e); display:flex; align-items:center; justify-content:center;}
+.wreath-ring{position:relative; width:78%; aspect-ratio:1;}
+.wreath-bloom{
+  position:absolute; width:24%; top:50%; left:50%;
+  transform:
+    translate(-50%,-50%)
+    rotate(var(--a))
+    translateY(-42%)
+    rotate(calc(-1 * var(--a)));
+}
+
+/* Falling Petals */
+.card-art-petals{background:linear-gradient(160deg,#fbeede,#f3dccb 60%,#eccbb0);}
+.petal{
+  position:absolute; top:-10%; left:var(--l);
+  width:14px; height:14px; border-radius:60% 0 60% 0;
+  background:linear-gradient(135deg,#e3b8bc,#c98a93);
+  animation:fallPetal 6s linear infinite;
+  animation-delay:var(--d);
+  transform:scale(var(--s));
+  opacity:.85;
+}
+@keyframes fallPetal{
+  0%{ transform:translateY(0) rotate(0deg) scale(var(--s)); }
+  100%{ transform:translateY(340px) rotate(220deg) scale(var(--s)); }
+}
+
+/* Celebration */
+.card-art-celebration{background:linear-gradient(160deg,#2a4434,#13231a);}
+.confetto{
+  position:absolute; top:-6%; left:var(--l);
+  width:8px; height:14px;
+  background: hsl(calc(30 + var(--c) * 40), 60%, 65%);
+  animation:fallConfetti 4.5s linear infinite;
+  animation-delay:var(--d);
+  opacity:.9;
+}
+@keyframes fallConfetti{
+  0%{ transform:translateY(0) rotate(0deg); }
+  100%{ transform:translateY(340px) rotate(380deg); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .petal,.confetto{animation:none;}
+}

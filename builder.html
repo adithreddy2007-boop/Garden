@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build a gift · Garden</title>
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/builder.css">
+<link rel="stylesheet" href="css/card-art.css">
+<link rel="stylesheet" href="css/lock-styles.css">
+</head>
+<body>
+<div class="canopy-bg"></div>
+
+<div class="topbar">
+  <a href="index.html" class="mark">🌿 Garden</a>
+  <div class="steps" id="stepsNav">
+    <button data-step="0" class="step-pill active">Bouquet</button>
+    <button data-step="1" class="step-pill">Lock</button>
+    <button data-step="2" class="step-pill">Card</button>
+    <button data-step="3" class="step-pill">Details</button>
+    <button data-step="4" class="step-pill">Music</button>
+    <button data-step="5" class="step-pill">Share</button>
+  </div>
+  <button class="btn btn-sm btn-ghost" onclick="window.location.href='index.html'">Exit</button>
+</div>
+
+<main class="wizard">
+
+  <!-- STEP 0 — BOUQUET BUILDER -->
+  <section class="step" data-step="0">
+    <div class="panel-head">
+      <span class="eyebrow">Step 1</span>
+      <h2>Build the bouquet</h2>
+      <p>Tap a flower to add it. Drag to place it, drag a handle to resize, double-tap to flip between bloom and stem.</p>
+    </div>
+    <div class="bouquet-layout">
+      <div class="flower-shelf" id="flowerShelf"></div>
+      <div class="bouquet-stage-wrap">
+        <div class="bouquet-stage" id="bouquetStage">
+          <img class="wrap-img" id="wrapImg" src="" alt="">
+          <div class="placed-layer" id="placedLayer"></div>
+        </div>
+        <div class="stage-tools">
+          <button class="btn btn-sm" id="clearBouquet">Clear all</button>
+          <span class="stage-hint" id="stageHint">0 flowers placed</span>
+        </div>
+      </div>
+      <div class="selected-flower-panel" id="selectedPanel">
+        <p class="muted">Select a placed flower to edit it.</p>
+      </div>
+    </div>
+    <div class="step-actions"><button class="btn btn-primary" data-next>Next: PIN lock</button></div>
+  </section>
+
+  <!-- STEP 1 — PIN LOCK -->
+  <section class="step" data-step="1" hidden>
+    <div class="panel-head">
+      <span class="eyebrow">Step 2</span>
+      <h2>Add a lock, if you like</h2>
+      <p>Gate the gift behind a 4-digit PIN only your recipient knows.</p>
+    </div>
+    <div class="toggle-row">
+      <button class="seg-btn active" data-lock-toggle="off">No lock</button>
+      <button class="seg-btn" data-lock-toggle="on">PIN lock</button>
+    </div>
+    <div id="lockOptions" class="lock-options" hidden>
+      <div class="lock-styles" id="lockStyles"></div>
+      <div class="pin-entry">
+        <label for="pinInput">Set a 4-digit PIN</label>
+        <input type="text" id="pinInput" inputmode="numeric" maxlength="4" pattern="\d{4}" placeholder="••••" style="max-width:160px; letter-spacing:.4em; text-align:center; font-size:1.2rem;">
+      </div>
+    </div>
+    <div class="step-actions">
+      <button class="btn" data-prev>Back</button>
+      <button class="btn btn-primary" data-next>Next: Card</button>
+    </div>
+  </section>
+
+  <!-- STEP 2 — CARD PICKER -->
+  <section class="step" data-step="2" hidden>
+    <div class="panel-head">
+      <span class="eyebrow">Step 3</span>
+      <h2>Choose a keepsake card</h2>
+      <p>The bouquet sits inside this card when it's opened.</p>
+    </div>
+    <div class="card-gallery" id="cardGallery"></div>
+    <div class="step-actions">
+      <button class="btn" data-prev>Back</button>
+      <button class="btn btn-primary" data-next>Next: Details</button>
+    </div>
+  </section>
+
+  <!-- STEP 3 — DETAILS -->
+  <section class="step" data-step="3" hidden>
+    <div class="panel-head">
+      <span class="eyebrow">Step 4</span>
+      <h2>The details</h2>
+      <p>Who it's from, who it's for, and the words in between.</p>
+    </div>
+    <div class="details-grid">
+      <div>
+        <label for="fromName">From</label>
+        <input type="text" id="fromName" placeholder="Your name">
+      </div>
+      <div>
+        <label for="toName">For</label>
+        <input type="text" id="toName" placeholder="Their name">
+      </div>
+    </div>
+    <div>
+      <label for="noteText">Note</label>
+      <textarea id="noteText" rows="5" placeholder="Write something only they'd understand…"></textarea>
+    </div>
+
+    <div class="subsection">
+      <label>Photos <span class="muted-inline">(up to 3)</span></label>
+      <div class="photo-row" id="photoRow">
+        <label class="photo-add" id="photoAddBtn">+ Add photo<input type="file" id="photoInput" accept="image/*" hidden></label>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <label>Voice note <span class="muted-inline">(optional)</span></label>
+      <div class="voice-row">
+        <button class="btn btn-sm" id="recordBtn">● Record</button>
+        <span id="voiceStatus" class="muted-inline">No voice note yet</span>
+        <button class="btn btn-sm btn-ghost" id="clearVoiceBtn" hidden>Remove</button>
+      </div>
+      <audio id="voicePreview" controls hidden style="width:100%; margin-top:10px;"></audio>
+    </div>
+
+    <div class="step-actions">
+      <button class="btn" data-prev>Back</button>
+      <button class="btn btn-primary" data-next>Next: Music</button>
+    </div>
+  </section>
+
+  <!-- STEP 4 — MUSIC -->
+  <section class="step" data-step="4" hidden>
+    <div class="panel-head">
+      <span class="eyebrow">Step 5</span>
+      <h2>Set the soundtrack</h2>
+      <p>Paste a Spotify track link and choose exactly where the clip plays from.</p>
+    </div>
+    <label for="spotifyUrl">Spotify track link</label>
+    <input type="text" id="spotifyUrl" placeholder="https://open.spotify.com/track/...">
+    <div id="spotifyPreview" class="spotify-preview"></div>
+    <div class="music-range" id="musicRange" hidden>
+      <div>
+        <label for="startSec">Start at (sec)</label>
+        <input type="number" id="startSec" min="0" value="0">
+      </div>
+      <div>
+        <label for="endSec">End at (sec)</label>
+        <input type="number" id="endSec" min="1" value="30">
+      </div>
+    </div>
+    <div class="step-actions">
+      <button class="btn" data-prev>Back</button>
+      <button class="btn btn-primary" data-next>Next: Share</button>
+    </div>
+  </section>
+
+  <!-- STEP 5 — SHARE -->
+  <section class="step" data-step="5" hidden>
+    <div class="panel-head">
+      <span class="eyebrow">Step 6</span>
+      <h2>Send it</h2>
+      <p>One last look, then scatter the seed.</p>
+    </div>
+    <div id="shareBefore">
+      <button class="btn btn-primary" id="generateBtn">Create gift &amp; generate link</button>
+    </div>
+    <div id="shareAfter" hidden>
+      <div class="qr-wrap">
+        <canvas id="heartQr" width="360" height="360"></canvas>
+        <p class="muted-inline">Tap the card to copy the link</p>
+      </div>
+      <div class="link-row">
+        <input type="text" id="giftLink" readonly>
+        <button class="btn btn-sm" id="copyLinkBtn">Copy</button>
+      </div>
+      <p class="send-line">send this when "I miss you" isn't enough</p>
+      <button class="btn btn-primary" onclick="window.location.href='index.html'">Done</button>
+    </div>
+    <div class="step-actions"><button class="btn" data-prev>Back</button></div>
+  </section>
+
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/flowers-data.js"></script>
+<script src="js/cards-data.js"></script>
+<script src="js/heart-qr.js"></script>
+<script src="js/builder.js"></script>
+</body>
+</html>

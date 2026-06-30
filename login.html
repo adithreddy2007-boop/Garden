@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · Garden</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .auth-wrap{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;}
+  .auth-card{width:100%; max-width:400px; padding:42px 36px; text-align:center;}
+  .auth-card .mark{font-family:var(--serif); font-size:1.4rem; color:var(--rose-soft); margin-bottom:6px;}
+  .auth-card h1{font-size:2rem; margin:0 0 6px;}
+  .auth-card .sub{font-size:.88rem; margin-bottom:28px;}
+  form{text-align:left; display:flex; flex-direction:column; gap:16px;}
+  .auth-card .btn-primary{width:100%; justify-content:center; padding:14px;}
+  .divider{display:flex; align-items:center; gap:12px; margin:22px 0; color:var(--ink-dim); font-size:.78rem;}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line);}
+  .google-btn{width:100%; justify-content:center; padding:13px;}
+  .switch{margin-top:24px; font-size:.85rem; color:var(--ink-dim);}
+  .switch a{color:var(--rose-soft); text-decoration:none; border-bottom:1px solid currentColor;}
+  .err{font-size:.8rem; color:#e3a193; min-height:1.2em;}
+</style>
+</head>
+<body>
+<div class="canopy-bg"></div>
+<div class="auth-wrap">
+  <div class="auth-card card-panel">
+    <div class="mark">🌿 Garden</div>
+    <h1>Welcome back</h1>
+    <p class="sub">Sign in to keep tending your gifts.</p>
+
+    <form id="loginForm">
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" required autocomplete="email" placeholder="you@example.com">
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" required autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <div class="err" id="err"></div>
+      <button type="submit" class="btn btn-primary" id="submitBtn">Sign in</button>
+    </form>
+
+    <p class="switch">New here? <a href="signup.html">Create an account</a></p>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  redirectIfSignedIn();
+
+  document.getElementById('loginForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const err = document.getElementById('err');
+    err.textContent = '';
+    setButtonLoading(btn, true, 'Signing in');
+    auth.signInWithEmailAndPassword(
+      document.getElementById('email').value.trim(),
+      document.getElementById('password').value
+    ).then(() => window.location.href = 'index.html')
+     .catch(e => { err.textContent = authErrorMessage(e); setButtonLoading(btn, false, 'Sign in'); });
+  });
+</script>
+</body>
+</html>

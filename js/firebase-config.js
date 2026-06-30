@@ -1,6 +1,6 @@
 // Garden — Firebase setup
 // 1. Create a project at https://console.firebase.google.com
-// 2. Enable Authentication > Sign-in method > Email/Password AND Google
+// 2. Enable Authentication > Sign-in method > Email/Password
 // 3. Enable Firestore Database (start in production mode, add rules below)
 // 4. Project settings > General > Your apps > Web app > copy the config below
 // 5. Firestore rules (Firestore > Rules):
@@ -12,6 +12,10 @@
 //         allow read: if true;                 // recipients open gifts without login
 //         allow create: if request.auth != null;
 //         allow update, delete: if request.auth != null && request.auth.uid == resource.data.ownerId;
+//       }
+//       match /users/{userId} {
+//         allow create: if request.auth != null && request.auth.uid == userId;
+//         allow read, update: if request.auth != null && request.auth.uid == userId;
 //       }
 //     }
 //   }
